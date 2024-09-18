@@ -8,8 +8,7 @@
 
 
 class Potential { 
-public: 
-    virtual double get_value(std::array<double, 3> coords) const = 0; 
+public:  
     virtual void update_accelerations(std::vector<Particle> &particles) const = 0;
 };
 
