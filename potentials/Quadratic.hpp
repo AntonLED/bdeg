@@ -13,7 +13,7 @@ private:
     Eigen::Matrix3d qform;
 
 public:
-    Quadratic(): qform(Eigen::Matrix3d::Constant(1.0, 1.0, 1.0)) { }
+    Quadratic(): qform(Eigen::Matrix3d::Identity()) { }
     Quadratic(Eigen::Matrix3d qform): qform(qform) { }
 
     Eigen::Matrix3d get_qform() const { return qform; }
@@ -28,10 +28,12 @@ public:
 
     void update_accelerations(std::vector<Particle> &particles) const override { 
         for (auto &particle: particles) { 
-            // TODO!
-            bool TODO = false;
-        }
+            Eigen::Vector3d force = -(qform.transpose() + qform) * Eigen::Vector3d(particle.x, particle.y, particle.z);
 
+            particle.ax = force(0) / particle.m; 
+            particle.ay = force(1) / particle.m; 
+            particle.az = force(2) / particle.m;
+        }
     }
 };
 
