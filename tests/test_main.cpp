@@ -20,10 +20,10 @@ std::ostream& operator<<(std::ostream &os, const Quadratic &trap) {
 }
 
 int main(int argc, const char *argv[]) { 
-    auto trap = Quadratic(); 
-    auto trap1 = Quadratic(Eigen::Matrix3d::Random());
+    auto trap1 = Quadratic(Eigen::DiagonalMatrix<double, 3> {10.0, 0.0, 10.0}); 
+    auto trap2 = Quadratic(Eigen::DiagonalMatrix<double, 3> {0.0, 10.0, 10.0});
 
-    auto trap2 = trap + trap1; 
+    auto trap = trap1 + trap2; 
 
     auto engine = VelVerlet(0.001);
 
@@ -31,11 +31,10 @@ int main(int argc, const char *argv[]) {
     std::cout << trap2 << std::endl; 
     std::cout << (trap + trap1 == trap2) << std::endl;
  
-
     if (true) {
         std::ofstream outfile; 
 
-        std::vector particles = {Particle(0, 0.5, 1), Particle(0, -0.5, 1)};
+        std::vector particles = {Particle(0, 0.5, 0), Particle(0, -0.5, 0)};
 
         engine.make_step(particles, trap, true);
         for (unsigned i = 0; i < 100'000; i++) { 
